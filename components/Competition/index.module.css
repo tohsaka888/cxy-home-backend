@@ -1,0 +1,12 @@
+.competition-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  /* border-bottom: 1px solid #cecece; */
+}
+
+.competition-container {
+  padding: 8px 16px;
+  background: #fff;
+  margin: 12px 0px;
+  box-shadow: 0px 0px 10px 1px #dedede;
+}
