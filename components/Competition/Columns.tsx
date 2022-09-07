@@ -2,18 +2,18 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 17:08:16
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-06 14:18:03
+ * @LastEditTime: 2022-09-07 16:22:29
  * @Description: 请填写简介
  */
 
-import { Button } from "antd";
+import Link from "next/link";
 
 export const columns = [
   {
     title: '序号',
     dataIndex: 'index',
     key: 'index',
-    width: 60,
+    width: 70,
     fixed: 'left' as 'left',
     render: (_: any, __: any, index: number) => index + 1
   },
@@ -72,11 +72,12 @@ export const columns = [
     key: 'operation',
     width: 150,
     fixed: 'right' as 'right',
-    render() {
+    render(text: any, record: any) {
+      const token = localStorage.getItem('token');
       return <div style={{ display: 'flex', justifyContent: 'space-between', width: '120px' }}>
         <a>删除</a>
-        <a>编辑</a>
-        <a>查看</a>
+        <Link href={`/detail/competition/edit/${record._id}/${token}`}>编辑</Link>
+        <Link href={`/detail/competition/view/${record._id}/${token}`}>查看</Link>
       </div>
     }
   }
