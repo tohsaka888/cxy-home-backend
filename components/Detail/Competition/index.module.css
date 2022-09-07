@@ -1,0 +1,24 @@
+.container {
+  min-height: calc(100vh - 65px);
+  margin: 0px 18vw;
+  padding: 16px 0px;
+}
+
+.part-container {
+  background-color: #fff;
+  padding: 8px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0px 0px 10px 3px #dfdfdf;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.part-title {
+  font-size: 1rem;
+  padding: 8px 2px;
+  border-bottom: 1px solid #cecece;
+  font-weight: bold;
+}
