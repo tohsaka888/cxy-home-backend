@@ -2,16 +2,18 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 16:42:03
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-06 15:46:15
+ * @LastEditTime: 2022-09-07 15:38:11
  * @Description: 请填写简介
  */
 
 import { Divider, Form, Col, Row, Input, Table, Button, DatePicker } from 'antd'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { competitionUrl } from '../../config/baseUrl'
 import { columns } from './Columns'
 import style from './index.module.css'
 import moment from 'moment'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 type SearchParams = {
   place?: string;
@@ -22,19 +24,8 @@ type SearchParams = {
 }
 
 function CompetitionList() {
-  const [list, setList] = useState<(Competition.Competition & {_id: string})[]>([])
+  const [list, setList] = useState<(Competition.Competition & { _id: string })[]>([])
   const [searchParams, setSearchParams] = useState<SearchParams>({})
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`${competitionUrl}/api/competition/list`, {
-        mode: 'cors'
-      })
-      const data = await res.json()
-      setList(data.list)
-    }
-    fetchData()
-  }, [])
 
   const search = useCallback(async (isReset?: boolean) => {
     const res = await fetch(`${competitionUrl}/api/competition/search`, {
@@ -45,6 +36,14 @@ function CompetitionList() {
     const data = await res.json()
     setList(data.list)
   }, [searchParams])
+
+  const router = useRouter()
+
+  const {token} = router.query
+
+  useEffect(() => {
+    search(true)
+  }, [search])
 
   return (
     <>
@@ -114,9 +113,18 @@ function CompetitionList() {
       </div>
 
       <div className={style['competition-container']}>
+        <div style={{ display: 'flex', height: '50px', alignItems: 'center', marginBottom: '6px' }}>
+          <Button type="primary" style={{ marginRight: '8px', width: '90px' }}>
+            <Link href={`/detail/competition/add/10086/${token}`}>
+              新增
+            </Link>
+          </Button>
+          <Button danger type="primary" style={{ marginRight: '8px', width: '90px' }}>删除</Button>
+        </div>
         <Table
           dataSource={list}
           columns={columns}
+          bordered
           scroll={{ x: 1500 }}
           rowKey={record => record._id}
           pagination={{
