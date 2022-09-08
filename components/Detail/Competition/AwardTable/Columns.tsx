@@ -2,12 +2,13 @@
  * @Author: tohsaka888
  * @Date: 2022-09-08 10:21:01
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-08 16:17:54
+ * @LastEditTime: 2022-09-08 17:00:50
  * @Description: 请填写简介
  */
 
 import { CompetitionContext } from "context/context"
 import { useCallback, useContext } from "react"
+import { Popconfirm } from 'antd'
 
 const Operation = ({ record }: { record: any }) => {
   const { competition, setCompetition } = useContext(CompetitionContext)!
@@ -21,7 +22,9 @@ const Operation = ({ record }: { record: any }) => {
 
   return (
     <>
-      <a onClick={deleteItem}>删除</a>
+      <Popconfirm okText={"确认"} cancelText={"取消"} onConfirm={deleteItem} title={'确认删除,删除后无法恢复'}>
+        <a>删除</a>
+      </Popconfirm>
     </>
   )
 }
