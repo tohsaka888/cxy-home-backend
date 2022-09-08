@@ -2,7 +2,7 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 16:23:08
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-05 16:30:53
+ * @LastEditTime: 2022-09-08 10:16:38
  * @Description: 请填写简介
  */
 
@@ -25,7 +25,7 @@ function Header() {
     tokenRef.current = localStorage.getItem('token') || ''
   }, [])
   return (
-    <Layout.Header>
+    <Layout.Header style={{ position: 'sticky', top: '0px', zIndex: 999 }}>
       <Menu items={menuItems} mode={"horizontal"} theme={"dark"} defaultSelectedKeys={[path]}
         onClick={(info) => {
           router.push(`/${info.key}/${tokenRef.current}`)
