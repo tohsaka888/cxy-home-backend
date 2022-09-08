@@ -2,18 +2,17 @@
  * @Author: tohsaka888
  * @Date: 2022-09-07 11:35:44
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-08 14:36:54
+ * @LastEditTime: 2022-09-08 17:07:55
  * @Description: 请填写简介
  */
 import { Button, Col, DatePicker, Form, Input, Layout, message, Row, Typography } from 'antd'
 import Header from 'components/Header'
 import { competitionUrl } from 'config/baseUrl'
 import { CompetitionContext } from 'context/context'
-import useCompetitionDetail, { fetcher } from 'hooks/useCompetitionDetail'
+import useCompetitionDetail from 'hooks/useCompetitionDetail'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSWRConfig } from 'swr'
 import AwardTable from './AwardTable'
 import styles from './index.module.css'
 import ParticipantsTable from './ParticipantsTable'
@@ -359,7 +358,7 @@ function CompetitionDetail() {
                 </>}
               </div>
               {competition?.participants && <ParticipantsTable participants={competition?.participants} />}
-              {competition?.winners && <AwardTable participants={competition?.participants || []} winners={competition?.winners || []} />}
+              {competition?.winners && <AwardTable winners={competition?.winners || []} />}
               <div className={styles['part-container']} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button style={{ width: '90px', marginRight: '8px' }} onClick={() => router.back()}>返回</Button>
                 <Button type="primary" style={{ width: '90px', marginLeft: '8px' }} onClick={save}>保存</Button>
