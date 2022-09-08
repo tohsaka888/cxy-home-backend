@@ -2,16 +2,20 @@
  * @Author: tohsaka888
  * @Date: 2022-09-07 11:35:44
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-07 16:13:43
+ * @LastEditTime: 2022-09-08 11:51:40
  * @Description: 请填写简介
  */
-import { Col, DatePicker, Form, Input, Layout, message, Row, Typography } from 'antd'
+import { Button, Col, DatePicker, Form, Input, Layout, message, Row, Typography } from 'antd'
 import Header from 'components/Header'
-import useCompetitionDetail from 'hooks/useCompetitionDetail'
+import { competitionUrl } from 'config/baseUrl'
+import useCompetitionDetail, { fetcher } from 'hooks/useCompetitionDetail'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSWRConfig } from 'swr'
+import AwardTable from './AwardTable'
 import styles from './index.module.css'
+import ParticipantsTable from './ParticipantsTable'
 
 const initCompetition = {
   name: '',
@@ -39,12 +43,13 @@ const initCompetition = {
 
 function CompetitionDetail() {
   const router = useRouter()
+  const [form] = Form.useForm()
+  const [awardForm] = Form.useForm()
   const { id, token, way } = router.query
   const [competition, setCompetition] = useState<(Competition.Competition & { _id?: string }) | null>(null)
-  const onSuccess = (data: any) => {
-    console.log(data)
+  const onSuccess = useCallback((data: any) => {
     setCompetition(data.success ? data.competition : initCompetition)
-  }
+  }, [])
 
   const formattedCompetition = useMemo(() => {
     return competition ? {
@@ -68,7 +73,46 @@ function CompetitionDetail() {
   const onError = useCallback((error: any) => {
     message.error(error)
   }, [])
+
+  const update = useCallback(async () => {
+    const data = await fetcher(`${competitionUrl}/api/competition/${id}`)
+    onSuccess(data)
+  }, [id, onSuccess])
+
   useCompetitionDetail({ way: (way as string), id: (id as string) || '', onSuccess, onError })
+
+  const save = useCallback(async () => {
+    try {
+      await form.validateFields()
+      await awardForm.validateFields()
+
+      if (competition) {
+        competition.updatedTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+        const res = await fetch(`${competitionUrl}/api/competition/edit`, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ competition: { ...competition, id, } }),
+        })
+        const data = await res.json()
+        if (data.success) {
+          if (data.isEdit) {
+            message.success('修改成功')
+            // mutate(`${competitionUrl}/api/competition/${id}`, update)
+          } else {
+            message.error('修改失败')
+          }
+        } else {
+          message.error(data.error)
+        }
+      }
+    } catch (error: any) {
+      message.error('表单校验错误')
+      return
+    }
+  }, [awardForm, competition, form, id])
 
   return (
     <>
@@ -83,7 +127,7 @@ function CompetitionDetail() {
             <div className={styles['part-container']}>
               <div className={styles['part-title']}>基本信息</div>
               {competition &&
-                <Form labelCol={{ span: 9 }} wrapperCol={{ span: 15 }} initialValues={formattedCompetition}>
+                <Form labelCol={{ span: 9 }} wrapperCol={{ span: 15 }} initialValues={formattedCompetition} form={form}>
                   <Row style={{ marginTop: '16px' }}>
                     <Col span={8}>
                       <Form.Item label={"比赛名称"} name={'name'} style={{ marginBottom: '16px' }}
@@ -91,7 +135,7 @@ function CompetitionDetail() {
                       >
                         {way === 'view'
                           ? competition?.name
-                          : <Input placeholder='请输入比赛名称' value={competition.name} />
+                          : <Input placeholder='请输入比赛名称' value={competition.name} onChange={(e) => setCompetition({ ...competition, name: e.target.value })} />
                         }
                       </Form.Item>
                     </Col>
@@ -228,7 +272,7 @@ function CompetitionDetail() {
                               </Typography.Paragraph>
                             </Typography>
                           )
-                          : <Input.TextArea rows={5} />
+                          : <Input.TextArea rows={5} onChange={(e) => setCompetition({ ...competition, intro: e.target.value })} />
                         }
                       </Form.Item>
                     </Col>
@@ -239,7 +283,7 @@ function CompetitionDetail() {
             <div className={styles['part-container']}>
               <div className={styles['part-title']}>奖项设置</div>
               {competition && <>
-                <Form labelCol={{ span: 9 }} wrapperCol={{ span: 15 }} initialValues={formattedCompetition}>
+                <Form labelCol={{ span: 9 }} wrapperCol={{ span: 15 }} initialValues={formattedCompetition} form={awardForm}>
                   <Row style={{ marginTop: '16px' }}>
                     <Col span={8}>
                       <Form.Item label={"一等奖"} name={['awardSetting', '0', 'limit']} style={{ marginBottom: '16px' }}
@@ -316,6 +360,12 @@ function CompetitionDetail() {
                   </Row>
                 </Form>
               </>}
+            </div>
+            <ParticipantsTable participants={competition?.participants || []} />
+            <AwardTable participants={competition?.participants || []} winners={competition?.winners || []} />
+            <div className={styles['part-container']} style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button style={{ width: '90px', marginRight: '8px' }} onClick={() => router.back()}>返回</Button>
+              <Button type="primary" style={{ width: '90px', marginLeft: '8px' }} onClick={save}>保存</Button>
             </div>
           </div>
         </Layout.Content>
