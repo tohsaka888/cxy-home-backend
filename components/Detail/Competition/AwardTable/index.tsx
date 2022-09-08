@@ -2,7 +2,7 @@
  * @Author: tohsaka888
  * @Date: 2022-09-08 10:33:06
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-08 16:41:36
+ * @LastEditTime: 2022-09-08 17:05:19
  * @Description: 请填写简介
  */
 
@@ -15,7 +15,6 @@ import { columns } from './Columns';
 import { columns as pColumns } from '../ParticipantsTable/Columns'
 
 type Props = {
-  participants: (Competition.Participant & { _id?: string })[];
   winners: (Competition.Winner & { _id?: string })[];
 }
 
@@ -26,7 +25,7 @@ export const items = [
   { label: '优秀奖', value: '优秀奖' }
 ]
 
-function AwardTable({ participants, winners }: Props) {
+function AwardTable({ winners }: Props) {
   const [filteredWinners, setFilteredWinners] = useState<(Competition.Winner & { _id?: string })[]>(winners)
   const [searchParams, setSearchParams] = useState<{ username: string; email: string; award: string; }>({ username: '', email: '', award: '' })
   const { setCompetition, competition } = useContext(CompetitionContext)!
@@ -49,11 +48,13 @@ function AwardTable({ participants, winners }: Props) {
 
   const canAddList = useMemo(() => {
     return (
-      participants
-        .filter((participant) => !winners.find(winner => winner.username === participant.username))
-        .filter((winner) => winner.username.includes(searchAddParams.username) && winner.email.includes(searchAddParams.email))
+      competition
+        ? competition.participants
+          .filter((participant) => !winners.find(winner => winner.username === participant.username))
+          .filter((winner) => winner.username.includes(searchAddParams.username) && winner.email.includes(searchAddParams.email))
+        : []
     )
-  }, [participants, winners, searchAddParams])
+  }, [competition, winners, searchAddParams.username, searchAddParams.email])
 
   useEffect(() => {
     filter()
@@ -129,7 +130,7 @@ function AwardTable({ participants, winners }: Props) {
           try {
             await form.validateFields()
             const winners: Competition.Winner[] = selectedRowKeys.map((_id) => ({
-              ...canAddList.find(participant => participant._id === _id) as Competition.Winner,
+              ...canAddList.find(participant => (participant as any)._id === _id) as Competition.Winner,
               award: searchAddParams.award
             }))
             if (competition) {
@@ -173,7 +174,7 @@ function AwardTable({ participants, winners }: Props) {
         </Form>
         <Table
           dataSource={canAddList}
-          rowKey={record => record._id || record.username}
+          rowKey={record => (record as any)._id || record.username}
           columns={pColumns.filter(c => c.key !== 'operation')}
           rowSelection={{
             async onChange(selectedRowKeys, selectedRows, info) {
