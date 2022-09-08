@@ -2,12 +2,12 @@
  * @Author: tohsaka888
  * @Date: 2022-09-08 10:13:41
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-08 14:12:00
+ * @LastEditTime: 2022-09-08 16:58:45
  * @Description: 请填写简介
  */
 import { Button, Col, Form, Input, Row, Table } from 'antd'
 import { columns } from './Columns'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styles from '../index.module.css'
 
 type Props = {
@@ -27,6 +27,10 @@ function ParticipantsTable({ participants }: Props) {
       setFilteredParticipants(participants)
     }
   }, [participants, searchParams.email, searchParams.username])
+
+  useEffect(() => {
+    filter()
+  }, [filter, participants])
 
   return (
     <div className={styles['part-container']}>
