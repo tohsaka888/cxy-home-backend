@@ -2,9 +2,29 @@
  * @Author: tohsaka888
  * @Date: 2022-09-08 10:21:01
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-08 10:42:43
+ * @LastEditTime: 2022-09-08 16:17:54
  * @Description: 请填写简介
  */
+
+import { CompetitionContext } from "context/context"
+import { useCallback, useContext } from "react"
+
+const Operation = ({ record }: { record: any }) => {
+  const { competition, setCompetition } = useContext(CompetitionContext)!
+
+  const deleteItem = useCallback(() => {
+    if (competition) {
+      const newWinners = competition?.winners.filter(win => win.username !== record.username)
+      setCompetition({ ...competition, winners: newWinners })
+    }
+  }, [competition, record.username, setCompetition])
+
+  return (
+    <>
+      <a onClick={deleteItem}>删除</a>
+    </>
+  )
+}
 
 export const columns = [
   {
@@ -33,12 +53,8 @@ export const columns = [
   {
     title: '操作',
     key: 'operation',
-    render() {
-      return (
-        <>
-          <a>删除</a>
-        </>
-      )
+    render(text: any, record: any) {
+      return <Operation record={record} />
     }
   }
 ]
