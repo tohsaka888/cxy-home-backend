@@ -2,7 +2,7 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 17:08:16
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-07 16:22:29
+ * @LastEditTime: 2022-09-08 11:26:28
  * @Description: 请填写简介
  */
 
@@ -39,8 +39,17 @@ export const columns = [
     }
   },
   {
+    title: '比赛方式',
+    dataIndex: 'info',
+    key: 'way',
+    render(text: Competition.Info, record: Competition.Competition) {
+      return text.way
+    }
+  },
+  {
     title: '限报人数',
     dataIndex: 'info',
+    width: 90,
     key: 'limit',
     render(text: Competition.Info, record: Competition.Competition) {
       return text.limit
