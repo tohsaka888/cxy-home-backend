@@ -2,10 +2,11 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 17:08:16
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-08 11:26:28
+ * @LastEditTime: 2022-09-09 15:51:46
  * @Description: 请填写简介
  */
 
+import moment from "moment";
 import Link from "next/link";
 
 export const columns = [
@@ -21,6 +22,8 @@ export const columns = [
     title: '比赛名称',
     dataIndex: 'name',
     key: 'name',
+    width: 220,
+    ellipsis: { showTitle: true }
   },
   {
     title: '创建者',
@@ -49,10 +52,13 @@ export const columns = [
   {
     title: '限报人数',
     dataIndex: 'info',
-    width: 90,
+    width: 120,
     key: 'limit',
     render(text: Competition.Info, record: Competition.Competition) {
       return text.limit
+    },
+    sorter: {
+      compare(a: any, b: any) { return a.info.limit - b.info.limit }
     }
   },
   {
@@ -61,19 +67,38 @@ export const columns = [
     key: 'duration',
     render(text: Competition.Info, record: Competition.Competition) {
       return text.duration
-    }
+    },
   },
   {
     title: '创建时间',
     dataIndex: 'createdTime',
     key: 'createdTime',
     width: 180,
+    sorter: {
+      compare(a: any, b: any) {
+        if (moment(a.info.createdTime).isBefore(moment(b.info.createdTime))) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    }
   },
   {
     title: '更新时间',
     dataIndex: 'updatedTime',
     key: 'updatedTime',
     width: 180,
+    sorter: {
+      compare(a: any, b: any) {
+        if (moment(a.info.createdTime).isBefore(moment(b.info.createdTime))) {
+          return 1;
+        } else {
+          return -1;
+        }
+      },
+      defaultSortOrder: 'ascend'
+    }
   },
   {
     title: '操作',
