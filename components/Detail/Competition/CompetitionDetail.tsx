@@ -2,7 +2,7 @@
  * @Author: tohsaka888
  * @Date: 2022-09-07 11:35:44
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-09 09:19:44
+ * @LastEditTime: 2022-09-09 15:39:15
  * @Description: 请填写简介
  */
 import { Button, Col, DatePicker, Form, Input, Layout, message, Row, Typography } from 'antd'
@@ -103,8 +103,6 @@ function CompetitionDetail() {
       }
     }
   }, [competition, id])
-
-  console.log(loginStatus)
 
   const add = useCallback(async () => {
 
