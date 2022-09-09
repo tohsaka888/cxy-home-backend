@@ -2,12 +2,12 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 16:42:03
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-07 15:38:11
+ * @LastEditTime: 2022-09-09 16:13:44
  * @Description: 请填写简介
  */
 
-import { Divider, Form, Col, Row, Input, Table, Button, DatePicker } from 'antd'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import {  Form, Col, Row, Input, Table, Button, DatePicker, Popconfirm, message } from 'antd'
+import React, { Key, useCallback, useEffect, useRef, useState } from 'react'
 import { competitionUrl } from '../../config/baseUrl'
 import { columns } from './Columns'
 import style from './index.module.css'
@@ -25,9 +25,12 @@ type SearchParams = {
 
 function CompetitionList() {
   const [list, setList] = useState<(Competition.Competition & { _id: string })[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
   const [searchParams, setSearchParams] = useState<SearchParams>({})
+  const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([])
 
   const search = useCallback(async (isReset?: boolean) => {
+    setLoading(true)
     const res = await fetch(`${competitionUrl}/api/competition/search`, {
       method: 'POST',
       body: JSON.stringify(isReset ? {} : searchParams),
@@ -35,15 +38,39 @@ function CompetitionList() {
     })
     const data = await res.json()
     setList(data.list)
+    setLoading(false)
   }, [searchParams])
+
+  const deleteWithIds = async () => {
+    const res = await fetch(`${competitionUrl}/api/competition/delete`, {
+      method: 'POST',
+      body: JSON.stringify({ ids: selectedRowKeys }),
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors'
+    })
+
+    const data = await res.json()
+
+    if (data.success) {
+      if (data.isDeleted) {
+        message.success('删除成功')
+        search()
+      } else {
+        message.error('删除失败')
+      }
+    } else {
+      message.error(data.error)
+    }
+  }
 
   const router = useRouter()
 
-  const {token} = router.query
+  const { token } = router.query
 
   useEffect(() => {
     search(true)
-  }, [search])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -119,13 +146,24 @@ function CompetitionList() {
               新增
             </Link>
           </Button>
-          <Button danger type="primary" style={{ marginRight: '8px', width: '90px' }}>删除</Button>
+          <Popconfirm okText={'确认'} cancelText={'取消'} title={'确认删除?删除后无法恢复数据!'}
+            onConfirm={deleteWithIds}
+          >
+            <Button danger type="primary" style={{ marginRight: '8px', width: '90px' }}>删除</Button>
+          </Popconfirm>
         </div>
         <Table
+          loading={loading}
           dataSource={list}
           columns={columns}
           bordered
-          scroll={{ x: 1500 }}
+          rowSelection={{
+            selectedRowKeys: selectedRowKeys,
+            onChange(selectedRowKeys, selectedRows, info) {
+              setSelectedRowKeys(selectedRowKeys)
+            },
+          }}
+          scroll={{ x: 1800 }}
           rowKey={record => record._id}
           pagination={{
             showSizeChanger: true,
