@@ -2,7 +2,7 @@
  * @Author: tohsaka888
  * @Date: 2022-09-07 11:35:44
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-08 17:07:55
+ * @LastEditTime: 2022-09-09 09:19:44
  * @Description: 请填写简介
  */
 import { Button, Col, DatePicker, Form, Input, Layout, message, Row, Typography } from 'antd'
@@ -10,6 +10,7 @@ import Header from 'components/Header'
 import { competitionUrl } from 'config/baseUrl'
 import { CompetitionContext } from 'context/context'
 import useCompetitionDetail from 'hooks/useCompetitionDetail'
+import useLoginStatus from 'hooks/useLoginStatus'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -51,6 +52,8 @@ function CompetitionDetail() {
     setCompetition(data.success ? data.competition : initCompetition)
   }, [])
 
+  const { data: loginStatus } = useLoginStatus()
+
   const formattedCompetition = useMemo(() => {
     return competition ? {
       ...competition,
@@ -76,38 +79,82 @@ function CompetitionDetail() {
 
   useCompetitionDetail({ way: (way as string), id: (id as string) || '', onSuccess, onError })
 
+  const edit = useCallback(async () => {
+    if (competition) {
+      competition.updatedTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      const res = await fetch(`${competitionUrl}/api/competition/edit`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ competition: { ...competition, id, } }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        if (data.isEdit) {
+          message.success('修改成功')
+          // mutate(`${competitionUrl}/api/competition/${id}`, update)
+        } else {
+          message.error('修改失败')
+        }
+      } else {
+        message.error(data.error)
+      }
+    }
+  }, [competition, id])
+
+  console.log(loginStatus)
+
+  const add = useCallback(async () => {
+
+    if (competition && loginStatus) {
+      const username = loginStatus?.result.adminName
+      const email = '19030420@czu.com'
+      competition.createdTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      competition.updatedTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      competition.creator = { username, email }
+
+      console.log(competition.creator)
+
+      const res = await fetch(`${competitionUrl}/api/competition/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+        body: JSON.stringify({ competition })
+      })
+      const data = await res.json()
+      if (data.success) {
+        if (data.isCreated) {
+          message.success('新增成功')
+          // mutate(`${competitionUrl}/api/competition/${id}`, update)
+        } else {
+          message.error('新增失败')
+        }
+      } else {
+        message.error(data.error)
+      }
+    }
+  }, [competition, loginStatus])
+
   const save = useCallback(async () => {
     try {
       await form.validateFields()
       await awardForm.validateFields()
+      if (way === 'edit') {
+        edit()
+      }
 
-      if (competition) {
-        competition.updatedTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        const res = await fetch(`${competitionUrl}/api/competition/edit`, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ competition: { ...competition, id, } }),
-        })
-        const data = await res.json()
-        if (data.success) {
-          if (data.isEdit) {
-            message.success('修改成功')
-            // mutate(`${competitionUrl}/api/competition/${id}`, update)
-          } else {
-            message.error('修改失败')
-          }
-        } else {
-          message.error(data.error)
-        }
+      if (way === 'add') {
+        add()
       }
     } catch (error: any) {
       message.error('表单校验错误')
       return
     }
-  }, [awardForm, competition, form, id])
+  }, [add, awardForm, edit, form, way])
 
   return (
     <>
