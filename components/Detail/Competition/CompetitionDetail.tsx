@@ -2,7 +2,7 @@
  * @Author: tohsaka888
  * @Date: 2022-09-07 11:35:44
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-09 15:39:15
+ * @LastEditTime: 2022-09-14 10:07:42
  * @Description: 请填写简介
  */
 import { Button, Col, DatePicker, Form, Input, Layout, message, Row, Typography } from 'antd'
@@ -15,6 +15,7 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import AwardTable from './AwardTable'
+import ImageUploader from './ImageUploader'
 import styles from './index.module.css'
 import ParticipantsTable from './ParticipantsTable'
 
@@ -94,7 +95,6 @@ function CompetitionDetail() {
       if (data.success) {
         if (data.isEdit) {
           message.success('修改成功')
-          // mutate(`${competitionUrl}/api/competition/${id}`, update)
         } else {
           message.error('修改失败')
         }
@@ -113,8 +113,6 @@ function CompetitionDetail() {
       competition.updatedTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       competition.creator = { username, email }
 
-      console.log(competition.creator)
-
       const res = await fetch(`${competitionUrl}/api/competition/add`, {
         method: 'POST',
         headers: {
@@ -127,6 +125,7 @@ function CompetitionDetail() {
       if (data.success) {
         if (data.isCreated) {
           message.success('新增成功')
+          router.back()
           // mutate(`${competitionUrl}/api/competition/${id}`, update)
         } else {
           message.error('新增失败')
@@ -135,7 +134,7 @@ function CompetitionDetail() {
         message.error(data.error)
       }
     }
-  }, [competition, loginStatus])
+  }, [competition, loginStatus, router])
 
   const save = useCallback(async () => {
     try {
@@ -402,6 +401,7 @@ function CompetitionDetail() {
                   </Form>
                 </>}
               </div>
+              {competition?.banners && <ImageUploader />}
               {competition?.participants && <ParticipantsTable participants={competition?.participants} />}
               {competition?.winners && <AwardTable winners={competition?.winners || []} />}
               <div className={styles['part-container']} style={{ display: 'flex', justifyContent: 'center' }}>
