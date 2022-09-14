@@ -2,7 +2,7 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 17:07:08
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-05 17:07:09
+ * @LastEditTime: 2022-09-14 09:51:45
  * @Description: 请填写简介
  */
 
@@ -57,7 +57,7 @@ declare namespace Competition {
     winners: Winner[];
     intro: string;
     info: Info;
-    banners: CompetitionImage[];
+    banners: UploadFile<any>[];
     creator: Creator;
     awardSetting: AwardSetting[];
   }
