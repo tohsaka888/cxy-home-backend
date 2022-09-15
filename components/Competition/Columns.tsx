@@ -2,12 +2,24 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 17:08:16
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-09 15:51:46
+ * @LastEditTime: 2022-09-15 08:50:21
  * @Description: 请填写简介
  */
 
 import moment from "moment";
 import Link from "next/link";
+import { useContext } from "react";
+import { LoadingContext } from "./context";
+
+const Operation = ({ record }: { record: any }) => {
+  const token = localStorage.getItem('token');
+  const { setLoading } = useContext(LoadingContext)!
+  return <div style={{ display: 'flex', justifyContent: 'space-between', width: '120px' }}>
+    <a>删除</a>
+    <Link href={`/detail/competition/edit/${record._id}/${token}`} onClick={() => { setLoading(true); }}>编辑</Link>
+    <Link href={`/detail/competition/view/${record._id}/${token}`} onClick={() => { setLoading(true); }}>查看</Link>
+  </div>
+}
 
 export const columns = [
   {
@@ -107,12 +119,7 @@ export const columns = [
     width: 150,
     fixed: 'right' as 'right',
     render(text: any, record: any) {
-      const token = localStorage.getItem('token');
-      return <div style={{ display: 'flex', justifyContent: 'space-between', width: '120px' }}>
-        <a>删除</a>
-        <Link href={`/detail/competition/edit/${record._id}/${token}`}>编辑</Link>
-        <Link href={`/detail/competition/view/${record._id}/${token}`}>查看</Link>
-      </div>
+      return <Operation record={record} />
     }
   }
 ];
