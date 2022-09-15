@@ -2,11 +2,11 @@
  * @Author: tohsaka888
  * @Date: 2022-09-05 16:42:03
  * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-09 16:13:44
+ * @LastEditTime: 2022-09-15 09:55:32
  * @Description: 请填写简介
  */
 
-import {  Form, Col, Row, Input, Table, Button, DatePicker, Popconfirm, message } from 'antd'
+import { Form, Col, Row, Input, Table, Button, DatePicker, Popconfirm, message } from 'antd'
 import React, { Key, useCallback, useEffect, useRef, useState } from 'react'
 import { competitionUrl } from '../../config/baseUrl'
 import { columns } from './Columns'
@@ -14,6 +14,7 @@ import style from './index.module.css'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { LoadingContext } from './context'
 
 type SearchParams = {
   place?: string;
@@ -73,7 +74,7 @@ function CompetitionList() {
   }, [])
 
   return (
-    <>
+    <LoadingContext.Provider value={{ loading, setLoading }}>
       <div className={style['competition-container']}>
         <div className={style['competition-title']}>
           比赛模块
@@ -172,7 +173,7 @@ function CompetitionList() {
           }}
         />
       </div>
-    </>
+    </LoadingContext.Provider>
   )
 }
 
