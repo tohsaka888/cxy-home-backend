@@ -94,7 +94,7 @@ function ActivityDetail() {
     } catch (error) {
       console.log(error)
     }
-  }, [activity, data, form])
+  }, [activity, data, form, router])
 
   const save = useCallback(() => {
     if (way === 'add') {
