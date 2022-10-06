@@ -18,10 +18,7 @@ function Competition() {
   const { push } = useRouter();
 
   const hasPermission = useMemo(() => {
-    if (
-      data.result.permissions.includes("管理员") ||
-      data.result.permissions.includes("比赛")
-    ) {
+    if (data.result.permissions.includes("比赛")) {
       return true;
     } else {
       return false;
