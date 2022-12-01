@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "antd": "4.23.1",
-    "antd-img-crop": "4.2.4",
+    "antd-img-crop": "4.5.2",
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "next": "12.3.0",
