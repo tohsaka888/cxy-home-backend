@@ -6,8 +6,8 @@
  * @Description: 请填写简介
  */
 
-export const baseUrl = "https://cxy-home-backend.vercel.app";
-export const activityUrl = "https://cxy-home-backend-activity.vercel.app";
+export const baseUrl = "https://cxy-home-backend.tohsaka888.asia";
+export const activityUrl = "https://cxy-home-backend-activity.tohsaka888.asia";
 export const competitionUrl =
-  "https://cxy-home-backend-competition.vercel.app";
-export const loginUrl = "https://cxy-home-backend-login.vercel.app";
+  "https://cxy-home-backend-competition.tohsaka888.asia";
+export const loginUrl = "https://cxy-home-backend-login.tohsaka888.asia";
