@@ -6,8 +6,8 @@
  * @Description: 请填写简介
  */
 
-export const baseUrl = "https://cxy-home-backend.netlify.app";
-export const activityUrl = "https://cxy-home-backend-activity.netlify.app";
+export const baseUrl = "https://cxy-home-backend.vercel.app";
+export const activityUrl = "https://cxy-home-backend-activity.vercel.app";
 export const competitionUrl =
-  "https://cxy-home-backend-competition.netlify.app";
-export const loginUrl = "https://cxy-home-backend-login.netlify.app";
+  "https://cxy-home-backend-competition.vercel.app";
+export const loginUrl = "https://cxy-home-backend-login.vercel.app";
