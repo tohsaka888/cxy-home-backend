@@ -20,17 +20,17 @@ const Detail: NextPage<{ fallback: any }> = ({ fallback }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { id } = ctx.query
-  const res = await fetch(`${competitionUrl}/api/competition/${id}`)
-  const data = await res.json()
-  return {
-    props: {
-      fallback: {
-        [`${competitionUrl}/api/competition/${id}`]: data
-      }
-    }
-  }
-}
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const { id } = ctx.query
+//   const res = await fetch(`${competitionUrl}/api/competition/${id}`)
+//   const data = await res.json()
+//   return {
+//     props: {
+//       fallback: {
+//         [`${competitionUrl}/api/competition/${id}`]: data
+//       }
+//     }
+//   }
+// }
 
 export default Detail

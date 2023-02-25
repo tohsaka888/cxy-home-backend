@@ -18,12 +18,12 @@ function Competition() {
   const { push } = useRouter();
 
   const hasPermission = useMemo(() => {
-    if (data.result.permissions.includes("比赛")) {
+    if (data && data.result.permissions.includes("比赛")) {
       return true;
     } else {
       return false;
     }
-  }, [data.result.permissions]);
+  }, [data]);
 
   return (
     <Layout>
