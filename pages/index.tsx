@@ -5,66 +5,98 @@
  * @LastEditTime: 2022-09-05 16:21:44
  * @Description: 请填写简介
  */
-import { Button, Form, Input, message } from 'antd'
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
-import { loginUrl } from '../config/baseUrl'
-import useLoginStatus from '../hooks/useLoginStatus'
-import styles from '../styles/Home.module.css'
+import { Button, Form, Input, message } from "antd";
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+import { loginUrl } from "../config/baseUrl";
+import useLoginStatus from "../hooks/useLoginStatus";
+import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  const [form] = Form.useForm()
-  const [account, setAccount] = useState<{ adminName: string; adminPass: string; }>({ adminName: '', adminPass: '' })
-  const router = useRouter()
+  const [form] = Form.useForm();
+  const [account, setAccount] = useState<{
+    adminName: string;
+    adminPass: string;
+  }>({ adminName: "", adminPass: "" });
+  const router = useRouter();
 
-  const { data, error } = useLoginStatus()
+  const { data, error } = useLoginStatus();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token') || ''
+    const token = localStorage.getItem("token") || "";
     if (data && data.isLogin) {
-      router.push(`/competition/${token}`)
+      router.push(`/competition/${token}`);
     }
-  }, [data, router])
+  }, [data, router]);
 
   const login = useCallback(async () => {
+    setLoading(true);
     try {
-      const { error } = await form.validateFields()
+      const { error } = await form.validateFields();
       if (!error) {
         const res = await fetch(`${loginUrl}/api/login`, {
-          method: 'POST',
-          mode: 'cors',
+          method: "POST",
+          mode: "cors",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(account)
-        })
-        const data = await res.json()
-        localStorage.setItem('token', data.token)
+          body: JSON.stringify(account),
+        });
+        const data = await res.json();
+        localStorage.setItem("token", data.token);
+        setLoading(false);
       }
     } catch (error) {
-      message.error((error as Error).message || '账号密码不得为空')
+      message.error((error as Error).message || "账号密码不得为空");
     }
-  }, [account, form])
+  }, [account, form]);
 
   return (
     // <SWRConfig value={{ fallback }}>
-    <div className={styles['login-container']}>
+    <div className={styles["login-container"]}>
       <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} form={form}>
-        <Form.Item name="adminName" label={"管理员账号"} rules={[{ required: true, message: '请输入账号!' }]}>
-          <Input placeholder='请输入账号' onChange={e => setAccount({ ...account, adminName: e.target.value })} />
+        <Form.Item
+          name="adminName"
+          label={"管理员账号"}
+          rules={[{ required: true, message: "请输入账号!" }]}
+        >
+          <Input
+            placeholder="请输入账号"
+            onChange={(e) =>
+              setAccount({ ...account, adminName: e.target.value })
+            }
+          />
         </Form.Item>
-        <Form.Item name="adminPass" label={"管理员密码"} rules={[{ required: true, message: '请输入密码!' }]}>
-          <Input placeholder='请输入密码' type='password' onChange={e => setAccount({ ...account, adminPass: e.target.value })} />
+        <Form.Item
+          name="adminPass"
+          label={"管理员密码"}
+          rules={[{ required: true, message: "请输入密码!" }]}
+        >
+          <Input
+            placeholder="请输入密码"
+            type="password"
+            onChange={(e) =>
+              setAccount({ ...account, adminPass: e.target.value })
+            }
+          />
         </Form.Item>
         <div className={styles["login-button"]}>
-          <Button type="primary" style={{ width: '200px' }} onClick={login}>登录</Button>
+          <Button
+            type="primary"
+            style={{ width: "200px" }}
+            onClick={() => login()}
+            loading
+          >
+            登录
+          </Button>
         </div>
       </Form>
     </div>
     // </SWRConfig>
-  )
-}
+  );
+};
 
 // export const getServerSideProps: GetServerSideProps = async () => {
 //   console.log(localStorage.getItem('token'))
@@ -75,4 +107,4 @@ const Home: NextPage = () => {
 //   }
 // }
 
-export default Home
+export default Home;
