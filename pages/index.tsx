@@ -21,12 +21,12 @@ const Home: NextPage = () => {
   }>({ adminName: "", adminPass: "" });
   const router = useRouter();
 
-  const { data, error } = useLoginStatus();
+  const { data, mutate } = useLoginStatus();
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token") || "";
-    if (data && data.isLogin) {
+    if (token && data && data.isLogin) {
       router.push(`/competition/${token}`);
     }
   }, [data, router]);
@@ -46,12 +46,13 @@ const Home: NextPage = () => {
         });
         const data = await res.json();
         localStorage.setItem("token", data.token);
+        await mutate();
         setLoading(false);
       }
     } catch (error) {
       message.error((error as Error).message || "账号密码不得为空");
     }
-  }, [account, form]);
+  }, [account, form, mutate]);
 
   return (
     // <SWRConfig value={{ fallback }}>
@@ -87,7 +88,7 @@ const Home: NextPage = () => {
             type="primary"
             style={{ width: "200px" }}
             onClick={() => login()}
-            loading
+            loading={loading}
           >
             登录
           </Button>

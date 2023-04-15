@@ -53,7 +53,7 @@ function Admin() {
   };
 
   const hasPermission = useMemo(() => {
-    if (data) {
+    if (data && data.success) {
       if (data.result.permissions.includes("管理员")) {
         return true;
       } else {

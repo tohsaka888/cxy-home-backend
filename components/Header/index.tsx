@@ -1,14 +1,7 @@
-/*
- * @Author: tohsaka888
- * @Date: 2022-09-05 16:23:08
- * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-08 10:16:38
- * @Description: 请填写简介
- */
-
 import { Button, Layout, Menu } from "antd";
+import useLoginStatus from "hooks/useLoginStatus";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export const menuItems = [
   { label: "比赛模块", key: "competition" },
@@ -20,6 +13,8 @@ function Header() {
   const router = useRouter();
   const path = router.pathname.split("/")[1];
   const tokenRef = useRef<string>("");
+  const { mutate } = useLoginStatus();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     tokenRef.current = localStorage.getItem("token") || "";
@@ -47,8 +42,12 @@ function Header() {
       <Button
         type="primary"
         danger
-        onClick={() => {
+        loading={loading}
+        onClick={async () => {
           localStorage.clear();
+          setLoading(true);
+          await mutate();
+          setLoading(false);
           router.push("/");
         }}
       >

@@ -24,9 +24,7 @@ export const loginFetcher = async (url: string) => {
 };
 
 function useLoginStatus() {
-  const { data, error } = useSWR(`${loginUrl}/api/login/status`, loginFetcher);
-
-  return { data, error };
+  return useSWR(`${loginUrl}/api/login/status`, loginFetcher);
 }
 
 export default useLoginStatus;
