@@ -1,11 +1,3 @@
-/*
- * @Author: tohsaka888
- * @Date: 2022-09-15 10:09:49
- * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-15 11:42:26
- * @Description: 请填写简介
- */
-
 import { Button, Col, DatePicker, Form, Input, message, Row } from "antd";
 import { activityUrl } from "config/baseUrl";
 import useLoginStatus from "hooks/useLoginStatus";
@@ -65,12 +57,12 @@ function ActivityDetail() {
     setLoading(false);
   }, [id, way]);
 
-  const add = useCallback(async () => {
+  const save = useCallback(async () => {
     setLoading(true);
     try {
       if (data) {
         await form.validateFields();
-        const res = await fetch(`${activityUrl}/api/activity/add`, {
+        const res = await fetch(`${activityUrl}/api/activity/${way}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -82,17 +74,21 @@ function ActivityDetail() {
               createdTime: moment().format("YYYY-MM-DD HH:mm:ss"),
               updatedTime: moment().format("YYYY-MM-DD HH:mm:ss"),
               author: data.result.adminName,
+              id: way === "edit" ? activity._id : undefined,
             },
           }),
         });
         const resData = await res.json();
         setLoading(false);
         if (resData.success) {
-          if (data.isCreated) {
+          if (resData.isEdit) {
+            message.success("修改成功");
+            router.back();
+          } else if (resData.isCreated) {
             message.success("新增成功");
             router.back();
           } else {
-            message.error("新增失败");
+            message.error("新增或修改失败");
           }
         } else {
           message.error(data.error);
@@ -101,13 +97,7 @@ function ActivityDetail() {
     } catch (error) {
       console.log(error);
     }
-  }, [activity, data, form, router]);
-
-  const save = useCallback(() => {
-    if (way === "add") {
-      add();
-    }
-  }, [add, way]);
+  }, [activity, data, form, router, way]);
 
   return (
     <>
@@ -216,7 +206,7 @@ function ActivityDetail() {
                 type="primary"
                 style={{ width: "90px", marginLeft: "8px" }}
                 onClick={save}
-                loading
+                loading={loading}
               >
                 保存
               </Button>
