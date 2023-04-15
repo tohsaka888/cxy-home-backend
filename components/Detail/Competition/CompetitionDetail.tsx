@@ -136,8 +136,9 @@ function CompetitionDetail() {
       } else {
         message.error(data.error);
       }
+      router.back();
     }
-  }, [competition, id]);
+  }, [competition, id, router]);
 
   const add = useCallback(async () => {
     setLoading(true);
