@@ -6,28 +6,27 @@
  * @Description: 请填写简介
  */
 
-import React from 'react'
-import useSWR from 'swr'
-import { loginUrl } from '../config/baseUrl'
+import React from "react";
+import useSWR from "swr";
+import { loginUrl } from "../config/baseUrl";
 
 export const loginFetcher = async (url: string) => {
   const res = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ token: localStorage.getItem('token') || '' }),
-    mode: 'cors'
-  })
-  const data = await res.json()
-  return data
-}
+    body: JSON.stringify({ token: localStorage.getItem("token") || "" }),
+    mode: "cors",
+  });
+  const data = await res.json();
+  return data;
+};
 
 function useLoginStatus() {
+  const { data, error } = useSWR(`${loginUrl}/api/login/status`, loginFetcher);
 
-  const { data, error } = useSWR(`${loginUrl}/api/login/status`, loginFetcher)
-
-  return { data, error }
+  return { data, error };
 }
 
-export default useLoginStatus
+export default useLoginStatus;

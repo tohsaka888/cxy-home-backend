@@ -6,8 +6,8 @@
  * @Description: 请填写简介
  */
 
-export const baseUrl = "https://cxy-home-backend.tohsaka888.asia";
-export const activityUrl = "https://cxy-home-backend-activity.tohsaka888.asia";
+export const baseUrl = "https://cxy-home-backend.coder-home.top";
+export const activityUrl = "https://cxy-home-backend-activity.coder-home.top";
 export const competitionUrl =
-  "https://cxy-home-backend-competition.tohsaka888.asia";
-export const loginUrl = "https://cxy-home-backend-login.tohsaka888.asia";
+  "https://cxy-home-backend-competition.coder-home.top";
+export const loginUrl = "https://cxy-home-backend-login.coder-home.top";
