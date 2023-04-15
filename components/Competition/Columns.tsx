@@ -14,8 +14,8 @@ import { LoadingContext } from "./context";
 const Operation = ({ record }: { record: any }) => {
   const token = localStorage.getItem('token');
   const { setLoading } = useContext(LoadingContext)!
-  return <div style={{ display: 'flex', justifyContent: 'space-between', width: '120px' }}>
-    <a>删除</a>
+  return <div style={{ display: 'flex', justifyContent: 'space-between', width: '65px' }}>
+    {/* <a>删除</a> */}
     <Link href={`/detail/competition/edit/${record._id}/${token}`} onClick={() => { setLoading(true); }}>编辑</Link>
     <Link href={`/detail/competition/view/${record._id}/${token}`} onClick={() => { setLoading(true); }}>查看</Link>
   </div>
@@ -116,7 +116,7 @@ export const columns = [
     title: '操作',
     dataIndex: 'operation',
     key: 'operation',
-    width: 150,
+    width: 100,
     fixed: 'right' as 'right',
     render(text: any, record: any) {
       return <Operation record={record} />
