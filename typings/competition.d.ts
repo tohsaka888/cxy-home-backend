@@ -1,19 +1,3 @@
-/*
- * @Author: tohsaka888
- * @Date: 2022-09-05 17:07:08
- * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-14 09:51:45
- * @Description: 请填写简介
- */
-
-/*
- * @Author: tohsaka888
- * @Date: 2022-09-05 13:39:24
- * @LastEditors: tohsaka888
- * @LastEditTime: 2022-09-05 13:39:24
- * @Description: 请填写简介
- */
-
 declare namespace Competition {
 
   type Participant = {
