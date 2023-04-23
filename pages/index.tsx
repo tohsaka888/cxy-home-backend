@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-09-05 16:21:44
  * @Description: 请填写简介
  */
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input, Layout, message } from "antd";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -56,6 +56,7 @@ const Home: NextPage = () => {
 
   return (
     // <SWRConfig value={{ fallback }}>
+
     <div className={styles["login-container"]}>
       <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} form={form}>
         <Form.Item
