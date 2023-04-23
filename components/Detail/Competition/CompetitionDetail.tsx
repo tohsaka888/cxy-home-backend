@@ -196,7 +196,7 @@ function CompetitionDetail() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Layout>
         <Layout.Content>
           <CompetitionContext.Provider value={{ competition, setCompetition }}>
