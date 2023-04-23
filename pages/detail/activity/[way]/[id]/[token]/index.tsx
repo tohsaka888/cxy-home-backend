@@ -5,7 +5,7 @@ import React from 'react'
 function Detail() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <ActivityDetail />
     </>
   )

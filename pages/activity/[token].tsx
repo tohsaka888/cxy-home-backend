@@ -28,8 +28,9 @@ function Activity() {
     }
   }, [data]);
   return (
-    <Layout>
-      <Header />
+    // <Layout>
+    //   <Header />
+    <>
       {hasPermission ? (
         <ActivityList />
       ) : (
@@ -50,7 +51,7 @@ function Activity() {
           }
         />
       )}
-    </Layout>
+    </>
   );
 }
 

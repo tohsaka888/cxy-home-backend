@@ -128,7 +128,7 @@ function Admin() {
 
   return (
     <Layout>
-      <Header />
+      {/* <Header /> */}
       <Modal
         title={"新增"}
         open={open}

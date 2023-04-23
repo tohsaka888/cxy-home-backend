@@ -26,8 +26,7 @@ function Competition() {
   }, [data]);
 
   return (
-    <Layout>
-      <Header />
+    
       <Layout>
         <Layout.Content
           style={{
@@ -58,7 +57,6 @@ function Competition() {
           )}
         </Layout.Content>
       </Layout>
-    </Layout>
   );
 }
 
