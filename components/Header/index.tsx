@@ -7,6 +7,7 @@ export const menuItems = [
   { label: "比赛模块", key: "competition" },
   { label: "管理员模块", key: "admin" },
   { label: "活动模块", key: "activity" },
+  { label: "题库模块", key: "questions" },
 ];
 
 function Header() {
