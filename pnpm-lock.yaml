@@ -9,8 +9,8 @@ dependencies:
     specifier: 4.24.14
     version: 4.24.14(react-dom@18.2.0)(react@18.2.0)
   antd-img-crop:
-    specifier: 4.12.2
-    version: 4.12.2(antd@4.24.14)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 4.13.0
+    version: 4.13.0(antd@4.24.14)(react-dom@18.2.0)(react@18.2.0)
   lodash:
     specifier: 4.17.21
     version: 4.17.21
@@ -2036,19 +2036,19 @@ packages:
       color-convert: 2.0.1
     dev: true
 
-  /antd-img-crop@4.12.2(antd@4.24.14)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-xgxR3x2sg+tCBHMfx1gejEfhhvnIL2mpZ4OIPfQDJZTTfm9YpMqaqLF9qWbF9Nf83bXCdaQywYihcVGyw3niDg==}
+  /antd-img-crop@4.13.0(antd@4.24.14)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-BeX7/pgJTIAk4ZJb2AinF7XJEtzzWCdX7PPfV3lXP4WDQB2PmvMbA95MpbPFBgoUIt9p1r5dZfB3vbYf2fTEpg==}
     peerDependencies:
       antd: '>=4.0.0'
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
       antd: 4.24.14(react-dom@18.2.0)(react@18.2.0)
-      compare-versions: 6.0.0-rc.1
+      compare-versions: 6.1.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      react-easy-crop: 4.7.4(react-dom@18.2.0)(react@18.2.0)
-      tslib: 2.5.0
+      react-easy-crop: 5.0.2(react-dom@18.2.0)(react@18.2.0)
+      tslib: 2.6.2
     dev: false
 
   /antd@4.24.14(react-dom@18.2.0)(react@18.2.0):
@@ -2388,8 +2388,8 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /compare-versions@6.0.0-rc.1:
-    resolution: {integrity: sha512-cFhkjbGY1jLFWIV7KegECbfuyYPxSGvgGkdkfM+ibboQDoPwg2FRHm5BSNTOApiauRBzJIQH7qvOJs2sW5ueKQ==}
+  /compare-versions@6.1.0:
+    resolution: {integrity: sha512-LNZQXhqUvqUTotpZ00qLSaify3b4VFD588aRr8MKFw4CMUr98ytzCW5wDH5qx/DEY5kCDXcbcRuCqL0szEf2tg==}
     dev: false
 
   /compute-scroll-into-view@1.0.17:
@@ -4421,8 +4421,8 @@ packages:
       scheduler: 0.23.0
     dev: false
 
-  /react-easy-crop@4.7.4(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-oDi1375Jo/zuPUvo3oauxnNbfy8L4wsbmHD1KB2vT55fdgu+q8/K0w/rDWzy9jz4jfQ94Q9+3Yu366sDDFVmiA==}
+  /react-easy-crop@5.0.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-j4A/0s0v/Gx5YGXvw3SOFIMmRk5YCdob2ABL5cD00Q9HQPKIz6tkCYLdj0RMO0REPtCAOsZ2ZZLI6fUofiDP6w==}
     peerDependencies:
       react: '>=16.4.0'
       react-dom: '>=16.4.0'
@@ -4867,6 +4867,10 @@ packages:
 
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
+
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+    dev: false
 
   /tsutils@3.21.0(typescript@5.2.2):
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
