@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "antd": "4.24.14",
+    "antd": "4.24.15",
     "antd-img-crop": "4.17.0",
     "lodash": "4.17.21",
     "moment": "2.29.4",
