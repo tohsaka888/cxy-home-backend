@@ -9,8 +9,8 @@ dependencies:
     specifier: 4.24.15
     version: 4.24.15(react-dom@18.2.0)(react@18.2.0)
   antd-img-crop:
-    specifier: 4.17.0
-    version: 4.17.0(antd@4.24.15)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 4.18.0
+    version: 4.18.0(antd@4.24.15)(react-dom@18.2.0)(react@18.2.0)
   lodash:
     specifier: 4.17.21
     version: 4.17.21
@@ -2035,8 +2035,8 @@ packages:
       color-convert: 2.0.1
     dev: true
 
-  /antd-img-crop@4.17.0(antd@4.24.15)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-IopBtoFRcr+qJ40NjqQ+LsCgs9af4zltT4Aq5379NB9p+SHdD6NNGyU8sNIeQZMWiojhKa/rx2ZdujQEMTR0MQ==}
+  /antd-img-crop@4.18.0(antd@4.24.15)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-K9GJYg0F1tE9Q+TWuHX8QOeH52Z8OA+WAXAUWjJkPHeHAWlnIh538RpuHYgogP7LN4U1qU7TQKRCwkrUPNMdGA==}
     peerDependencies:
       antd: '>=4.0.0'
       react: '>=16.8.0'
